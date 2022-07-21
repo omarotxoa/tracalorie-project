@@ -23,6 +23,9 @@ const ItemCtrl = (function(){
 
     // Public Methods
     return {
+        getItems: function() {
+            return data.items;
+        },
         logData: function(){
             return data;
         }
@@ -34,9 +37,28 @@ const ItemCtrl = (function(){
 // UI Controller 
 const UICtrl = (function(){
 
+    const UISelectors = {
+        itemList: '#item-list'
+    }
+
     //Public Methods
     return {
+        populateItemList: function(items) {
+            let html = '';
 
+            items.forEach(function(item){
+                html += `
+                <li class="collection-item" id="item-${item.id}">
+                    <strong>${item.name}:</strong> <em>${item.calories} Calories</em>
+                    <a href="#" class="secondary-content">
+                        <i class="edit-item fa fa-pencil"></i>
+                    </a>
+                </li>`;
+            });
+
+            // Insert List Items
+            document.querySelector(UISelectors.itemList).innerHTML = html;
+        } 
     }
 })();
 
@@ -46,7 +68,12 @@ const UICtrl = (function(){
 const App = (function(ItemCtrl, UICtrl){
     return {
         init: function() {
-            console.log("Initializing App...");
+
+            // Fetch Items from Item Controller
+            const items = ItemCtrl.getItems();
+
+            // Populate List with Items
+            UICtrl.populateItemList(items);
         }
     }
 })(ItemCtrl, UICtrl);
