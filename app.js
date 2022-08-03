@@ -188,7 +188,6 @@ const UICtrl = (function(){
             document.querySelector(UISelectors.addBtn).style.display = 'inline';
         },
         showEditState: function(){
-            UICtrl.clearInput();
             document.querySelector(UISelectors.updateBtn).style.display = 'inline';
             document.querySelector(UISelectors.deleteBtn).style.display = 'inline';
             document.querySelector(UISelectors.backBtn).style.display = 'inline';
