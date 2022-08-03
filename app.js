@@ -85,6 +85,9 @@ const ItemCtrl = (function(){
             // Remove Item
             data.items.splice(index, 1);
         },
+        clearAllItems: function() {
+            data.items = [];
+        },
         setCurrentItem: function(item){
             data.currentItem = item;
         },
@@ -117,6 +120,7 @@ const UICtrl = (function(){
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
         backBtn: '.back-btn',
+        clearBtn: '.clear-btn',
         itemNameInput: '#item-name',
         itemCaloriesInput: '#item-calories',
         totalCalories: '.total-calories'
@@ -191,6 +195,14 @@ const UICtrl = (function(){
             document.querySelector(UISelectors.itemCaloriesInput).value = ItemCtrl.getCurrentItem().calories;
             UICtrl.showEditState();
         },
+        removeItems: function(){
+            let listItems = document.querySelectorAll(UISelectors.listItems);
+            // Turn Node List into Array
+            listItems = Array.from(listItems);
+            listItems.forEach(function(item){
+                item.remove();
+            });
+        },
         hideList: function() {
             document.querySelector(UISelectors.itemList).style.display = 'none';
         },
@@ -249,6 +261,9 @@ const App = (function(ItemCtrl, UICtrl){
             UICtrl.clearEditState();
             e.preventDefault();
         });
+
+        // Clear items event
+        document.querySelector(UISelectors.clearBtn).addEventListener('click', clearAllItemsClick);
     }
 
     // Update item
@@ -331,6 +346,24 @@ const App = (function(ItemCtrl, UICtrl){
         const totalCalories = ItemCtrl.getTotalCalories();
         UICtrl.showTotalCalories(totalCalories);
         UICtrl.clearEditState();
+        e.preventDefault();
+    }
+
+    // Clear All Items
+    const clearAllItemsClick = function(e) {
+        // Delete all items from data structure
+        ItemCtrl.clearAllItems();
+        // Remove from UI
+        UICtrl.removeItems();
+
+        // Clear state and change calories
+        const totalCalories = ItemCtrl.getTotalCalories();
+        UICtrl.showTotalCalories(totalCalories);
+        UICtrl.clearEditState();
+
+        // Hide UL
+        UICtrl.hideList();
+        
         e.preventDefault();
     }
 
