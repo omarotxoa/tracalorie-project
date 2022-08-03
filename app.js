@@ -223,6 +223,12 @@ const App = (function(ItemCtrl, UICtrl){
 
         // Update item event
         document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
+
+        // Back button event
+        document.querySelector(UISelectors.backBtn).addEventListener('click', function(e){
+            UICtrl.clearEditState();
+            e.preventDefault();
+        });
     }
 
     // Update item
